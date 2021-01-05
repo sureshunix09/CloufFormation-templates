@@ -1,0 +1,52 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "",
+  "Metadata": {},
+  "Parameters": {
+    "MyAppVpcCidr": {
+      "Description": "Choose Cidr for Vpc",
+      "Type": "String",
+      "Default": "173.31.0.0/16"
+    },
+    "EnvType": {
+      "Description": "Chosse Environment",
+      "Type": "String",
+      "Default": "dev",
+      "AllowedValues": [
+        "prod",
+        "stg",
+        "dev"
+      ]
+    }
+  },
+  "Mappings": {},
+  "Conditions": {
+    "ProdResource": {
+      "Fn::Equals": [
+        {
+          "Ref": "EnvType"
+        },
+        "prod"
+      ]
+    }
+  },
+  "Resources": {
+    "ConditionsDemo": {
+      "Type": "AWS::EC2::VPC",
+      "Condition": "ProdResource",
+      "Properties": {
+        "CidrBlock": {
+          "Ref": "MyAppVpcCidr"
+        },
+        "InstanceTenancy": "default",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "MyAppVpc"
+          }
+        ]
+      }
+    }
+  },
+  "Outputs": {}
+}

@@ -1,0 +1,34 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "",
+  "Metadata": {},
+  "Parameters": {
+    "StackOneName": {
+      "Description": "Enter the name of Stack One",
+      "Type": "String"
+    }
+  },
+  "Mappings": {},
+  "Conditions": {},
+  "Resources": {
+    "SubnetDemo": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "AvailabilityZone": "",
+        "VpcId": {
+          "Fn::ImportValue": {
+            "Fn::Sub": "${StackOneName}-VPCID"
+          }
+        },
+        "CidrBlock": "173.31.1.0/24",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "CrossStackDemo"
+          }
+        ]
+      }
+    }
+  },
+  "Outputs": {}
+}
